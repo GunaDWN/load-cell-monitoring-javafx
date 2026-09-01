@@ -1,0 +1,295 @@
+/* ==========================================================================
+   TEMA GELAP MODERN (INDUSTRIAL IOT DASHBOARD)
+   ========================================================================== */
+
+.root {
+    -fx-font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    -fx-background-color: #12151c;
+    -fx-text-fill: #e0e6ed;
+}
+
+/* Header & Top Bar */
+.top-bar {
+    -fx-background-color: #1a1f2c;
+    -fx-padding: 16 24 16 24;
+    -fx-border-color: #2a3144;
+    -fx-border-width: 0 0 1 0;
+}
+
+.app-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.app-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #8c9ba5;
+}
+
+/* Status Badges */
+.status-badge-disconnected {
+    -fx-background-color: rgba(244, 67, 54, 0.15);
+    -fx-text-fill: #ff5252;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 4 10 4 10;
+    -fx-background-radius: 12;
+    -fx-border-color: #ff5252;
+    -fx-border-radius: 12;
+}
+
+.status-badge-connected {
+    -fx-background-color: rgba(0, 230, 118, 0.15);
+    -fx-text-fill: #00e676;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 4 10 4 10;
+    -fx-background-radius: 12;
+    -fx-border-color: #00e676;
+    -fx-border-radius: 12;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #2d3548;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-padding: 7 14 7 14;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #3b465e;
+}
+
+.button-primary {
+    -fx-background-color: #00b0ff;
+    -fx-text-fill: #ffffff;
+}
+
+.button-primary:hover {
+    -fx-background-color: #40c4ff;
+}
+
+.button-danger {
+    -fx-background-color: #e53935;
+    -fx-text-fill: #ffffff;
+}
+
+.button-danger:hover {
+    -fx-background-color: #ef5350;
+}
+
+.button-action {
+    -fx-background-color: #23293a;
+    -fx-border-color: #3c4660;
+    -fx-border-radius: 6;
+    -fx-text-fill: #cfd8dc;
+}
+
+.button-action:hover {
+    -fx-background-color: #323a50;
+    -fx-text-fill: #ffffff;
+}
+
+/* Combo Box */
+.combo-box {
+    -fx-background-color: #23293a;
+    -fx-border-color: #3c4660;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #ffffff;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #23293a;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #23293a;
+    -fx-border-color: #3c4660;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #323a50;
+}
+
+/* Metric Cards */
+.metric-card {
+    -fx-background-color: #1a1f2c;
+    -fx-background-radius: 10;
+    -fx-border-color: #2a3144;
+    -fx-border-radius: 10;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 3);
+}
+
+.card-title {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #90a4ae;
+}
+
+.metric-value-large {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+}
+
+.metric-lc1 {
+    -fx-text-fill: #00e5ff;
+}
+
+.metric-lc2 {
+    -fx-text-fill: #ff9100;
+}
+
+.metric-tc1 {
+    -fx-text-fill: #00e676;
+}
+
+.metric-tc2 {
+    -fx-text-fill: #ff5252;
+}
+
+.metric-subvalue {
+    -fx-font-size: 14px;
+    -fx-text-fill: #b0bec5;
+}
+
+/* Charts */
+.chart {
+    -fx-background-color: #1a1f2c;
+    -fx-background-radius: 10;
+    -fx-border-color: #2a3144;
+    -fx-border-radius: 10;
+    -fx-padding: 10;
+}
+
+.chart-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.chart-plot-background {
+    -fx-background-color: #151922;
+}
+
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: #252b3b;
+}
+
+.axis {
+    -fx-tick-label-fill: #78909c;
+}
+
+.axis-label {
+    -fx-text-fill: #90a4ae;
+}
+
+/* Chart Series Styling */
+.default-color0.chart-series-line { -fx-stroke: #00e5ff; -fx-stroke-width: 2px; }
+.default-color1.chart-series-line { -fx-stroke: #ff9100; -fx-stroke-width: 2px; }
+
+.chart-line-symbol {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+}
+
+/* Console Log Area */
+.console-area {
+    -fx-control-inner-background: #0d1017;
+    -fx-background-color: #0d1017;
+    -fx-text-fill: #4caf50;
+    -fx-font-family: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+    -fx-font-size: 12px;
+    -fx-highlight-fill: #263238;
+}
+
+/* Unit Toggle Buttons (kg/N dan °C/°F) */
+.unit-toggle {
+    -fx-background-color: #23293a;
+    -fx-border-color: #3c4660;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #90a4ae;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 3 10 3 10;
+    -fx-cursor: hand;
+}
+
+.unit-toggle:hover {
+    -fx-background-color: #2d3548;
+    -fx-text-fill: #ffffff;
+}
+
+.unit-toggle:selected {
+    -fx-background-color: #00b0ff;
+    -fx-border-color: #00b0ff;
+    -fx-text-fill: #ffffff;
+}
+
+/* Radio Button Pilihan Sensor */
+.sensor-radio {
+    -fx-text-fill: #b0bec5;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+}
+
+.sensor-radio .radio {
+    -fx-background-color: #23293a;
+    -fx-border-color: #3c4660;
+    -fx-border-radius: 10;
+}
+
+.radio-lc1 {
+    -fx-text-fill: #00e5ff;
+}
+
+.radio-lc2 {
+    -fx-text-fill: #ff9100;
+}
+
+.radio-tc1 {
+    -fx-text-fill: #00e676;
+}
+
+.radio-tc2 {
+    -fx-text-fill: #ff5252;
+}
+
+.radio-combined {
+    -fx-text-fill: #e040fb;
+}
+
+.metric-combined {
+    -fx-text-fill: #e040fb;
+}
+
+.default-color2.chart-series-line {
+    -fx-stroke: #e040fb;
+    -fx-stroke-width: 2.5px;
+}
+
+.radio-tc-combined {
+    -fx-text-fill: #ffd600;
+}
+
+.metric-tc-combined {
+    -fx-text-fill: #ffd600;
+}
+
+.default-color3.chart-series-line {
+    -fx-stroke: #ffd600;
+    -fx-stroke-width: 2.5px;
+}
+
+

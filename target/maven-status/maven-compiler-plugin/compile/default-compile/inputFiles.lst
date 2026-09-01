@@ -1,0 +1,8 @@
+/home/dwn/project/load-cell-and-termokopel-monitoring/src/main/java/com/iot/monitoring/Launcher.java
+/home/dwn/project/load-cell-and-termokopel-monitoring/src/main/java/com/iot/monitoring/controller/CalibrationDialogController.java
+/home/dwn/project/load-cell-and-termokopel-monitoring/src/main/java/com/iot/monitoring/model/ThermocoupleData.java
+/home/dwn/project/load-cell-and-termokopel-monitoring/src/main/java/com/iot/monitoring/model/SensorData.java
+/home/dwn/project/load-cell-and-termokopel-monitoring/src/main/java/com/iot/monitoring/MainApp.java
+/home/dwn/project/load-cell-and-termokopel-monitoring/src/main/java/com/iot/monitoring/service/SerialService.java
+/home/dwn/project/load-cell-and-termokopel-monitoring/src/main/java/com/iot/monitoring/model/LoadCellData.java
+/home/dwn/project/load-cell-and-termokopel-monitoring/src/main/java/com/iot/monitoring/controller/DashboardController.java
