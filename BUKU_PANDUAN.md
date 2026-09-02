@@ -10,8 +10,7 @@
    - [2.1 Tabel Pinout Lengkap Arduino Nano](#21-tabel-pinout-lengkap-arduino-nano)
    - [2.2 Standar Warna Kabel Load Cell 4-Kawat](#22-standar-warna-kabel-load-cell-4-kawat)
    - [2.3 Pemasangan Polaritas Probe Termokopel Tipe-K](#23-pemasangan-polaritas-probe-termokopel-tipe-k)
-   - [2.4 Diagram Skematik Sirkuit](#24-diagram-skematik-sirkuit)
-   - [2.5 Tips Mengatasi Noise & Interferensi](#25-tips-mengatasi-noise--interferensi)
+   - [2.4 Tips Mengatasi Noise & Interferensi](#24-tips-mengatasi-noise--interferensi)
 3. [BAB 3: MENJALANKAN GUI DI WINDOWS / MAC / LINUX TANPA INSTALL JDK](#bab-3-menjalankan-gui-di-windows--mac--linux-tanpa-install-jdk)
    - [3.1 Konsep Portable Runtime (Zero-Dependency)](#31-konsep-portable-runtime-zero-dependency)
    - [3.2 Panduan untuk Pengguna Akhir (End-User)](#32-panduan-untuk-pengguna-akhir-end-user)
@@ -122,52 +121,7 @@ Probe termokopel memiliki polaritas kutub positif (+) dan negatif (-):
 
 ---
 
-## 2.4 Diagram Skematik Sirkuit
-
-```mermaid
-graph TD
-    subgraph Power["Sumber Daya Arduino"]
-        Nano5V["Arduino 5V"]
-        NanoGND["Arduino GND"]
-    end
-
-    subgraph LoadCellSection["Sistem Penimbangan"]
-        LC1["Load Cell 1 (4-Wire)"] --> HX1["Modul HX711 #1"]
-        LC2["Load Cell 2 (4-Wire)"] --> HX2["Modul HX711 #2"]
-        
-        HX1 -- DT --> PinD4["Arduino Pin D4"]
-        HX1 -- SCK --> PinD5["Arduino Pin D5"]
-        HX2 -- DT --> PinD2["Arduino Pin D2"]
-        HX2 -- SCK --> PinD3["Arduino Pin D3"]
-    end
-
-    subgraph ThermocoupleSection["Sistem Pengukuran Suhu"]
-        TC1["Probe Tipe-K #1"] --> MAX1["Modul MAX6675 #1"]
-        TC2["Probe Tipe-K #2"] --> MAX2["Modul MAX6675 #2"]
-        
-        MAX1 -- CLK --> PinD6["Arduino Pin D6"]
-        MAX1 -- CS --> PinD7["Arduino Pin D7"]
-        MAX1 -- DO --> PinD8["Arduino Pin D8"]
-        
-        MAX2 -- CS --> PinD9["Arduino Pin D9"]
-        MAX2 -- CLK --> PinD10["Arduino Pin D10"]
-        MAX2 -- DO --> PinD11["Arduino Pin D11"]
-    end
-
-    Nano5V === HX1
-    Nano5V === HX2
-    Nano5V === MAX1
-    Nano5V === MAX2
-
-    NanoGND === HX1
-    NanoGND === HX2
-    NanoGND === MAX1
-    NanoGND === MAX2
-```
-
----
-
-## 2.5 Tips Mengatasi Noise & Interferensi
+## 2.4 Tips Mengatasi Noise & Interferensi
 
 1. **Jalur Ground Bersama (*Common Ground*)**: Pastikan semua pin GND modul HX711 dan MAX6675 terhubung ke GND Arduino Nano dengan kontak yang kokoh.
 2. **Kabel Pendek & Terpelintir (*Twisted Pair*)**: Untuk kabel data `DT`/`SCK` dan `CLK`/`DO`, buat lilitan ringan (*twist*) dengan kabel ground untuk meredam gelombang elektromagnetik dari lingkungan sekitar.

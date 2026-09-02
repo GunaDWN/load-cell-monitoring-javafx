@@ -1,1 +1,12 @@
 dist/
+target/
+jre/
+runtime/
+*.jar
+*.exe
+*.csv
+.~lock*
+dependency-reduced-pom.xml
+.idea/
+*.iml
+.vscode/
