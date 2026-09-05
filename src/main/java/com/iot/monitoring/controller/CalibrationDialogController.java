@@ -50,7 +50,7 @@ public class CalibrationDialogController {
     }
 
     private void resetStepStatus() {
-        lblZeroStatus.setText("⚪ Belum dinolkan");
+        lblZeroStatus.setText("Not zeroed yet");
         lblZeroStatus.setStyle("-fx-text-fill: #90a4ae; -fx-font-weight: bold;");
         progressZero.setVisible(false);
 
@@ -64,12 +64,12 @@ public class CalibrationDialogController {
     @FXML
     public void handleZeroSensor() {
         if (serialService == null || !serialService.isConnected()) {
-            showAlert("Port Belum Terhubung", "Silakan hubungkan koneksi serial di dashboard utama terlebih dahulu.");
+            showAlert("Port Disconnected", "Please connect the serial port on the main dashboard first.");
             return;
         }
 
         progressZero.setVisible(true);
-        lblZeroStatus.setText("⏳ Sedang menyetel titik nol...");
+        lblZeroStatus.setText("Setting zero point (Tare)...");
         lblZeroStatus.setStyle("-fx-text-fill: #ff9100; -fx-font-weight: bold;");
 
         boolean isLc1 = rbCalibLc1.isSelected();
@@ -82,13 +82,13 @@ public class CalibrationDialogController {
     @FXML
     public void handleCalibrate() {
         if (serialService == null || !serialService.isConnected()) {
-            showAlert("Port Belum Terhubung", "Silakan hubungkan koneksi serial di dashboard utama terlebih dahulu.");
+            showAlert("Port Disconnected", "Please connect the serial port on the main dashboard first.");
             return;
         }
 
         String text = txtKnownWeight.getText();
         if (text == null || text.trim().isEmpty()) {
-            showAlert("Input Kosong", "Silakan masukkan berat beban uji referensi.");
+            showAlert("Empty Input", "Please enter reference test load weight.");
             return;
         }
 
@@ -96,11 +96,11 @@ public class CalibrationDialogController {
         try {
             val = Double.parseDouble(text.replace(',', '.').trim());
             if (val <= 0) {
-                showAlert("Nilai Tidak Valid", "Berat beban uji harus lebih besar dari 0.");
+                showAlert("Invalid Value", "Test load weight must be greater than 0.");
                 return;
             }
         } catch (NumberFormatException e) {
-            showAlert("Format Salah", "Masukkan angka desimal yang valid (contoh: 100 atau 500).");
+            showAlert("Invalid Format", "Please enter a valid decimal number (e.g. 100 or 500).");
             return;
         }
 
@@ -108,7 +108,7 @@ public class CalibrationDialogController {
         double massInKg = cmbWeightUnit.getValue().startsWith("gram") ? (val / 1000.0) : val;
 
         progressCalib.setVisible(true);
-        lblCalibResult.setText("⏳ Menunggu stabilisasi mekanik & menyimpan ke EEPROM...");
+        lblCalibResult.setText("Waiting for mechanical stabilization & saving to EEPROM...");
         lblCalibResult.setStyle("-fx-text-fill: #ff9100; -fx-font-weight: bold;");
 
         boolean isLc1 = rbCalibLc1.isSelected();
@@ -125,12 +125,12 @@ public class CalibrationDialogController {
         Platform.runLater(() -> {
             if (line.contains("[CAL_STATUS] ZERO1_DONE") || line.contains("[CAL_STATUS] ZERO2_DONE")) {
                 progressZero.setVisible(false);
-                lblZeroStatus.setText("✅ Titik nol (Tare) berhasil disetel!");
+                lblZeroStatus.setText("Zero point (Tare) set successfully!");
                 lblZeroStatus.setStyle("-fx-text-fill: #00e676; -fx-font-weight: bold;");
             } else if (line.contains("[CAL_STATUS] CAL1_SUCCESS:") || line.contains("[CAL_STATUS] CAL2_SUCCESS:")) {
                 progressCalib.setVisible(false);
                 String factor = line.substring(line.indexOf("SUCCESS:") + 8).trim();
-                lblCalibResult.setText("✅ Kalibrasi Sukses!\nFaktor: " + factor + " (Tersimpan permanen di EEPROM Arduino)");
+                lblCalibResult.setText("Calibration Successful!\nFactor: " + factor + " (Saved permanently to Arduino EEPROM)");
                 lblCalibResult.setStyle("-fx-text-fill: #00e676; -fx-font-weight: bold;");
             }
         });

@@ -31,20 +31,20 @@
                     <children>
                         <VBox>
                             <children>
-                                <Label styleClass="app-title" text="IoT Sensor Monitoring Dashboard" />
-                                <Label styleClass="app-subtitle" text="2x Load Cell (HX711) &amp; 2x Termokopel MAX6675 Serial Monitor" />
+                                <Label styleClass="app-title" text="Modular Fixture Monitoring Dashboard v1.0" />
+                                <Label styleClass="app-subtitle" text="2x Load Cell (HX711) &amp; 2x Thermocouple MAX6675 Serial Monitor" />
                             </children>
                         </VBox>
                         <Region HBox.hgrow="ALWAYS" />
                         <HBox alignment="CENTER_RIGHT" spacing="10.0">
                             <children>
                                 <Label text="Port:" style="-fx-text-fill: #b0bec5;" />
-                                <ComboBox fx:id="portComboBox" prefWidth="150.0" promptText="Pilih Port" />
+                                <ComboBox fx:id="portComboBox" prefWidth="150.0" promptText="Select Port" />
                                 <Button fx:id="refreshPortsButton" onAction="#handleRefreshPorts" text="↻" />
                                 <Label text="Baud:" style="-fx-text-fill: #b0bec5;" />
                                 <ComboBox fx:id="baudRateComboBox" prefWidth="100.0" />
                                 <Button fx:id="connectButton" onAction="#handleToggleConnect" prefWidth="110.0" styleClass="button-primary" text="Connect" />
-                                <Label fx:id="statusBadge" styleClass="status-badge-disconnected" text="TERPUTUS" />
+                                <Label fx:id="statusBadge" styleClass="status-badge-disconnected" text="DISCONNECTED" />
                             </children>
                         </HBox>
                     </children>
@@ -52,13 +52,13 @@
                 <Separator opacity="0.3" />
                 <HBox alignment="CENTER_LEFT" spacing="10.0">
                     <children>
-                        <Label text="Perintah Serial:" style="-fx-text-fill: #78909c; -fx-font-weight: bold;" />
-                        <Button fx:id="tareButton" onAction="#handleTare" styleClass="button-action" text="⚖ Tare Titik Nol ('t')" />
-                        <Button fx:id="calibButton" onAction="#handleOpenCalibration" styleClass="button-action" text="🎯 Wizard Kalibrasi Sensor" style="-fx-border-color: #00b0ff; -fx-text-fill: #00e5ff; -fx-font-weight: bold;" />
-                        <Button fx:id="toggleJsonButton" onAction="#handleToggleJson" styleClass="button-action" text="⇄ Toggle Format JSON ('j')" />
+                        <Label text="Serial Commands:" style="-fx-text-fill: #78909c; -fx-font-weight: bold;" />
+                        <Button fx:id="tareButton" onAction="#handleTare" styleClass="button-action" text="Zero Tare ('t')" />
+                        <Button fx:id="calibButton" onAction="#handleOpenCalibration" styleClass="button-action" text="Sensor Calibration Wizard" style="-fx-border-color: #00b0ff; -fx-text-fill: #00e5ff; -fx-font-weight: bold;" />
+                        <Button fx:id="toggleJsonButton" onAction="#handleToggleJson" styleClass="button-action" text="Toggle JSON Format ('j')" />
                         <Region HBox.hgrow="ALWAYS" />
-                        <Button fx:id="exportCsvButton" onAction="#handleExportCsv" styleClass="button-primary" text="📥 Download CSV (0)" />
-                        <Button fx:id="clearChartButton" onAction="#handleClearChart" styleClass="button-action" text="Hapus Riwayat Grafik" />
+                        <Button fx:id="exportCsvButton" onAction="#handleExportCsv" styleClass="button-primary" text="Download CSV (0)" />
+                        <Button fx:id="clearChartButton" onAction="#handleClearChart" styleClass="button-action" text="Clear Graphics History" />
                     </children>
                 </HBox>
             </children>
@@ -93,11 +93,11 @@
                                             <children>
                                                 <Label styleClass="card-title" text="LOAD CELL 1" />
                                                 <Region HBox.hgrow="ALWAYS" />
-                                                <Label fx:id="lblLc1Status" text="KOSONG" style="-fx-font-size: 11px; -fx-text-fill: #90a4ae;" />
+                                                <Label fx:id="lblLc1Status" text="EMPTY" style="-fx-font-size: 11px; -fx-text-fill: #90a4ae;" />
                                             </children>
                                         </HBox>
                                         <Label fx:id="lblLc1Berat" styleClass="metric-value-large, metric-lc1" text="0.00 kg" />
-                                        <Label fx:id="lblLc1Gaya" styleClass="metric-subvalue" text="Gaya: 0.0 N" />
+                                        <Label fx:id="lblLc1Gaya" styleClass="metric-subvalue" text="Force: 0.0 N" />
                                     </children>
                                 </VBox>
 
@@ -108,11 +108,11 @@
                                             <children>
                                                 <Label styleClass="card-title" text="LOAD CELL 2" />
                                                 <Region HBox.hgrow="ALWAYS" />
-                                                <Label fx:id="lblLc2Status" text="KOSONG" style="-fx-font-size: 11px; -fx-text-fill: #90a4ae;" />
+                                                <Label fx:id="lblLc2Status" text="EMPTY" style="-fx-font-size: 11px; -fx-text-fill: #90a4ae;" />
                                             </children>
                                         </HBox>
                                         <Label fx:id="lblLc2Berat" styleClass="metric-value-large, metric-lc2" text="0.00 kg" />
-                                        <Label fx:id="lblLc2Gaya" styleClass="metric-subvalue" text="Gaya: 0.0 N" />
+                                        <Label fx:id="lblLc2Gaya" styleClass="metric-subvalue" text="Force: 0.0 N" />
                                     </children>
                                 </VBox>
 
@@ -121,28 +121,28 @@
                                     <children>
                                         <HBox alignment="CENTER_LEFT">
                                             <children>
-                                                <Label styleClass="card-title" text="TOTAL BEBAN GABUNGAN (LC 1 + LC 2)" style="-fx-text-fill: #e040fb; -fx-font-weight: bold;" />
+                                                <Label styleClass="card-title" text="TOTAL COMBINED LOAD (LC 1 + LC 2)" style="-fx-text-fill: #e040fb; -fx-font-weight: bold;" />
                                                 <Region HBox.hgrow="ALWAYS" />
-                                                <Label fx:id="lblCombinedStatus" text="KOSONG" style="-fx-font-size: 11px; -fx-text-fill: #90a4ae;" />
+                                                <Label fx:id="lblCombinedStatus" text="EMPTY" style="-fx-font-size: 11px; -fx-text-fill: #90a4ae;" />
                                             </children>
                                         </HBox>
                                         <HBox alignment="BASELINE_LEFT" spacing="16.0">
                                             <children>
                                                 <Label fx:id="lblCombinedBerat" styleClass="metric-value-large, metric-combined" text="0.00 kg" />
-                                                <Label fx:id="lblCombinedGaya" styleClass="metric-subvalue" text="Total Gaya: 0.0 N" style="-fx-font-size: 15px;" />
+                                                <Label fx:id="lblCombinedGaya" styleClass="metric-subvalue" text="Total Force: 0.0 N" style="-fx-font-size: 15px;" />
                                             </children>
                                         </HBox>
                                     </children>
                                 </VBox>
 
-                                <!-- Card 3: Termokopel 1 -->
+                                <!-- Card 3: Thermocouple 1 -->
                                 <VBox fx:id="cardTc1" styleClass="metric-card" spacing="8.0" GridPane.columnIndex="2">
                                     <children>
                                         <HBox alignment="CENTER_LEFT">
                                             <children>
-                                                <Label styleClass="card-title" text="TERMOKOPEL 1" />
+                                                <Label styleClass="card-title" text="THERMOCOUPLE 1" />
                                                 <Region HBox.hgrow="ALWAYS" />
-                                                <Label fx:id="lblTc1Status" text="AKTIF" style="-fx-font-size: 11px; -fx-text-fill: #00e676;" />
+                                                <Label fx:id="lblTc1Status" text="ACTIVE" style="-fx-font-size: 11px; -fx-text-fill: #00e676;" />
                                             </children>
                                         </HBox>
                                         <Label fx:id="lblTc1Suhu" styleClass="metric-value-large, metric-tc1" text="--.- °C" />
@@ -150,14 +150,14 @@
                                     </children>
                                 </VBox>
 
-                                <!-- Card 4: Termokopel 2 -->
+                                <!-- Card 4: Thermocouple 2 -->
                                 <VBox fx:id="cardTc2" styleClass="metric-card" spacing="8.0" GridPane.columnIndex="3">
                                     <children>
                                         <HBox alignment="CENTER_LEFT">
                                             <children>
-                                                <Label styleClass="card-title" text="TERMOKOPEL 2" />
+                                                <Label styleClass="card-title" text="THERMOCOUPLE 2" />
                                                 <Region HBox.hgrow="ALWAYS" />
-                                                <Label fx:id="lblTc2Status" text="AKTIF" style="-fx-font-size: 11px; -fx-text-fill: #ff5252;" />
+                                                <Label fx:id="lblTc2Status" text="ACTIVE" style="-fx-font-size: 11px; -fx-text-fill: #ff5252;" />
                                             </children>
                                         </HBox>
                                         <Label fx:id="lblTc2Suhu" styleClass="metric-value-large, metric-tc2" text="--.- °C" />
@@ -165,14 +165,14 @@
                                     </children>
                                 </VBox>
 
-                                <!-- Card Gabungan: Total Termokopel 1 + 2 (Tampil saat mode gabungan) -->
+                                <!-- Card Gabungan: Temperature (Tampil saat mode gabungan) -->
                                 <VBox fx:id="cardTcCombined" styleClass="metric-card" spacing="8.0" GridPane.columnIndex="2" GridPane.columnSpan="2" visible="false" managed="false">
                                     <children>
                                         <HBox alignment="CENTER_LEFT">
                                             <children>
-                                                <Label styleClass="card-title" text="TOTAL SUHU GABUNGAN (TC 1 + TC 2)" style="-fx-text-fill: #ffd600; -fx-font-weight: bold;" />
+                                                <Label styleClass="card-title" text="TEMPERATURE" style="-fx-text-fill: #ffd600; -fx-font-weight: bold;" />
                                                 <Region HBox.hgrow="ALWAYS" />
-                                                <Label fx:id="lblCombinedTcStatus" text="AKTIF" style="-fx-font-size: 11px; -fx-text-fill: #ffd600;" />
+                                                <Label fx:id="lblCombinedTcStatus" text="ACTIVE" style="-fx-font-size: 11px; -fx-text-fill: #ffd600;" />
                                             </children>
                                         </HBox>
                                         <HBox alignment="BASELINE_LEFT" spacing="16.0">
@@ -195,11 +195,11 @@
                                         <!-- Header: Judul & Pilihan Satuan (kg / Newton) -->
                                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                                             <children>
-                                                <Label fx:id="lblWeightChartTitle" text="Tren Beban (kg)" styleClass="card-title" style="-fx-font-size: 14px;" />
+                                                <Label fx:id="lblWeightChartTitle" text="Weight Trends (kg)" styleClass="card-title" style="-fx-font-size: 14px;" />
                                                 <Region HBox.hgrow="ALWAYS" />
                                                 <HBox alignment="CENTER_RIGHT" spacing="4.0">
                                                     <children>
-                                                        <Label text="Satuan:" style="-fx-text-fill: #90a4ae; -fx-font-size: 11px; -fx-padding: 3 4 0 0;" />
+                                                        <Label text="Unit:" style="-fx-text-fill: #90a4ae; -fx-font-size: 11px; -fx-padding: 3 4 0 0;" />
                                                         <ToggleButton fx:id="btnUnitKg" onAction="#handleWeightUnitChange" text="kg" selected="true" styleClass="unit-toggle">
                                                             <toggleGroup>
                                                                 <ToggleGroup fx:id="weightUnitGroup" />
@@ -214,25 +214,25 @@
                                         <!-- LineChart -->
                                         <LineChart fx:id="weightChart" animated="false" createSymbols="false" legendVisible="false" VBox.vgrow="ALWAYS">
                                             <xAxis>
-                                                <NumberAxis fx:id="weightXAxis" label="Waktu Berjalan (0.5s / titik)" autoRanging="false" forceZeroInRange="false" />
+                                                <NumberAxis fx:id="weightXAxis" label="Elapsed Time (0.5s / sample)" autoRanging="false" forceZeroInRange="false" />
                                             </xAxis>
                                             <yAxis>
-                                                <NumberAxis fx:id="weightYAxis" label="Berat (kg)" autoRanging="true" />
+                                                <NumberAxis fx:id="weightYAxis" label="Weight (kg)" autoRanging="true" />
                                             </yAxis>
                                         </LineChart>
 
-                                        <!-- Footer: Filter Sensor (Semua / LC 1 / LC 2 / Gabungan) -->
+                                        <!-- Footer: Filter Sensor (All / LC 1 / LC 2 / Combined) -->
                                         <HBox alignment="CENTER" spacing="10.0">
                                             <children>
-                                                <Label text="Tampilkan:" style="-fx-text-fill: #90a4ae; -fx-font-size: 11px;" />
-                                                <RadioButton fx:id="rbLcAll" onAction="#handleWeightVisibilityChange" text="Semua (1 &amp; 2)" selected="true" styleClass="sensor-radio">
+                                                <Label text="Show:" style="-fx-text-fill: #90a4ae; -fx-font-size: 11px;" />
+                                                <RadioButton fx:id="rbLcAll" onAction="#handleWeightVisibilityChange" text="All (1 &amp; 2)" selected="true" styleClass="sensor-radio">
                                                     <toggleGroup>
                                                         <ToggleGroup fx:id="lcVisibilityGroup" />
                                                     </toggleGroup>
                                                 </RadioButton>
-                                                <RadioButton fx:id="rbLc1Only" onAction="#handleWeightVisibilityChange" text="Load Cell 1 Saja" toggleGroup="$lcVisibilityGroup" styleClass="sensor-radio, radio-lc1" />
-                                                <RadioButton fx:id="rbLc2Only" onAction="#handleWeightVisibilityChange" text="Load Cell 2 Saja" toggleGroup="$lcVisibilityGroup" styleClass="sensor-radio, radio-lc2" />
-                                                <RadioButton fx:id="rbLcCombined" onAction="#handleWeightVisibilityChange" text="Gabungan (LC 1 + 2)" toggleGroup="$lcVisibilityGroup" styleClass="sensor-radio, radio-combined" />
+                                                <RadioButton fx:id="rbLc1Only" onAction="#handleWeightVisibilityChange" text="Load Cell 1 Only" toggleGroup="$lcVisibilityGroup" styleClass="sensor-radio, radio-lc1" />
+                                                <RadioButton fx:id="rbLc2Only" onAction="#handleWeightVisibilityChange" text="Load Cell 2 Only" toggleGroup="$lcVisibilityGroup" styleClass="sensor-radio, radio-lc2" />
+                                                <RadioButton fx:id="rbLcCombined" onAction="#handleWeightVisibilityChange" text="Combined (LC 1 + 2)" toggleGroup="$lcVisibilityGroup" styleClass="sensor-radio, radio-combined" />
                                             </children>
                                         </HBox>
                                     </children>
@@ -244,11 +244,11 @@
                                         <!-- Header: Judul & Pilihan Satuan (°C / °F) -->
                                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                                             <children>
-                                                <Label fx:id="lblTempChartTitle" text="Tren Suhu (°C)" styleClass="card-title" style="-fx-font-size: 14px;" />
+                                                <Label fx:id="lblTempChartTitle" text="Temperature Trends" styleClass="card-title" style="-fx-font-size: 14px;" />
                                                 <Region HBox.hgrow="ALWAYS" />
                                                 <HBox alignment="CENTER_RIGHT" spacing="4.0">
                                                     <children>
-                                                        <Label text="Satuan:" style="-fx-text-fill: #90a4ae; -fx-font-size: 11px; -fx-padding: 3 4 0 0;" />
+                                                        <Label text="Unit:" style="-fx-text-fill: #90a4ae; -fx-font-size: 11px; -fx-padding: 3 4 0 0;" />
                                                         <ToggleButton fx:id="btnUnitCelsius" onAction="#handleTempUnitChange" text="°C" selected="true" styleClass="unit-toggle">
                                                             <toggleGroup>
                                                                 <ToggleGroup fx:id="tempUnitGroup" />
@@ -263,25 +263,25 @@
                                         <!-- LineChart -->
                                         <LineChart fx:id="tempChart" animated="false" createSymbols="false" legendVisible="false" VBox.vgrow="ALWAYS">
                                             <xAxis>
-                                                <NumberAxis fx:id="tempXAxis" label="Waktu Berjalan (0.5s / titik)" autoRanging="false" forceZeroInRange="false" />
+                                                <NumberAxis fx:id="tempXAxis" label="Elapsed Time (0.5s / sample)" autoRanging="false" forceZeroInRange="false" />
                                             </xAxis>
                                             <yAxis>
-                                                <NumberAxis fx:id="tempYAxis" label="Suhu (°C)" autoRanging="true" />
+                                                <NumberAxis fx:id="tempYAxis" label="Temperature (°C)" autoRanging="true" />
                                             </yAxis>
                                         </LineChart>
 
-                                        <!-- Footer: Filter Sensor (Semua / TC 1 / TC 2 / Rata-rata) -->
+                                        <!-- Footer: Filter Sensor (All / TC 1 / TC 2 / Combined) -->
                                         <HBox alignment="CENTER" spacing="10.0">
                                             <children>
-                                                <Label text="Tampilkan:" style="-fx-text-fill: #90a4ae; -fx-font-size: 11px;" />
-                                                <RadioButton fx:id="rbTcAll" onAction="#handleTempVisibilityChange" text="Semua (1 &amp; 2)" selected="true" styleClass="sensor-radio">
+                                                <Label text="Show:" style="-fx-text-fill: #90a4ae; -fx-font-size: 11px;" />
+                                                <RadioButton fx:id="rbTcAll" onAction="#handleTempVisibilityChange" text="All (1 &amp; 2)" selected="true" styleClass="sensor-radio">
                                                     <toggleGroup>
                                                         <ToggleGroup fx:id="tcVisibilityGroup" />
                                                     </toggleGroup>
                                                 </RadioButton>
-                                                <RadioButton fx:id="rbTc1Only" onAction="#handleTempVisibilityChange" text="Termokopel 1 Saja" toggleGroup="$tcVisibilityGroup" styleClass="sensor-radio, radio-tc1" />
-                                                <RadioButton fx:id="rbTc2Only" onAction="#handleTempVisibilityChange" text="Termokopel 2 Saja" toggleGroup="$tcVisibilityGroup" styleClass="sensor-radio, radio-tc2" />
-                                                <RadioButton fx:id="rbTcCombined" onAction="#handleTempVisibilityChange" text="Gabungan (TC 1 + 2)" toggleGroup="$tcVisibilityGroup" styleClass="sensor-radio, radio-tc-combined" />
+                                                <RadioButton fx:id="rbTc1Only" onAction="#handleTempVisibilityChange" text="Thermocouple 1 Only" toggleGroup="$tcVisibilityGroup" styleClass="sensor-radio, radio-tc1" />
+                                                <RadioButton fx:id="rbTc2Only" onAction="#handleTempVisibilityChange" text="Thermocouple 2 Only" toggleGroup="$tcVisibilityGroup" styleClass="sensor-radio, radio-tc2" />
+                                                <RadioButton fx:id="rbTcCombined" onAction="#handleTempVisibilityChange" text="Combined (TC 1 + 2)" toggleGroup="$tcVisibilityGroup" styleClass="sensor-radio, radio-tc-combined" />
                                             </children>
                                         </HBox>
                                     </children>
@@ -298,8 +298,8 @@
                                         <Region HBox.hgrow="ALWAYS" />
                                         <HBox spacing="8.0">
                                             <children>
-                                                <Button onAction="#handleExportCsv" styleClass="button-action" text="📥 Unduh CSV" style="-fx-padding: 3 8 3 8; -fx-font-size: 11px;" />
-                                                <Button onAction="#handleClearLog" styleClass="button-action" text="Bersihkan Konsol" style="-fx-padding: 3 8 3 8; -fx-font-size: 11px;" />
+                                                <Button onAction="#handleExportCsv" styleClass="button-action" text="Download CSV" style="-fx-padding: 3 8 3 8; -fx-font-size: 11px;" />
+                                                <Button onAction="#handleClearLog" styleClass="button-action" text="Clear Console" style="-fx-padding: 3 8 3 8; -fx-font-size: 11px;" />
                                             </children>
                                         </HBox>
                                     </children>

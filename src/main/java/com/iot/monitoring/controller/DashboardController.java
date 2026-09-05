@@ -197,18 +197,18 @@ public class DashboardController {
         seriesLc2.setName("Load Cell 2");
 
         seriesLcCombined = new XYChart.Series<>();
-        seriesLcCombined.setName("Total Beban (LC1 + LC2)");
+        seriesLcCombined.setName("Total Load (LC1 + LC2)");
 
         weightChart.getData().addAll(seriesLc1, seriesLc2);
 
         seriesTc1 = new XYChart.Series<>();
-        seriesTc1.setName("Termokopel 1");
+        seriesTc1.setName("Thermocouple 1");
 
         seriesTc2 = new XYChart.Series<>();
-        seriesTc2.setName("Termokopel 2");
+        seriesTc2.setName("Thermocouple 2");
 
         seriesTcCombined = new XYChart.Series<>();
-        seriesTcCombined.setName("Total Suhu (TC1 + TC2)");
+        seriesTcCombined.setName("Total Temperature (TC1 + TC2)");
 
         tempChart.getData().addAll(seriesTc1, seriesTc2);
 
@@ -269,12 +269,12 @@ public class DashboardController {
         } else {
             String selectedPort = portComboBox.getValue();
             if (selectedPort == null || selectedPort.trim().isEmpty()) {
-                showAlert(Alert.AlertType.WARNING, "Port Belum Dipilih", "Silakan pilih port serial terlebih dahulu.");
+                showAlert(Alert.AlertType.WARNING, "Port Not Selected", "Please select a serial port first.");
                 return;
             }
             int baudRate = baudRateComboBox.getValue();
             connectButton.setDisable(true);
-            connectButton.setText("Menghubungkan...");
+            connectButton.setText("Connecting...");
 
             new Thread(() -> {
                 boolean success = serialService.connect(selectedPort, baudRate);
@@ -294,8 +294,8 @@ public class DashboardController {
     @FXML
     public void handleWeightUnitChange() {
         boolean isNewton = btnUnitNewton.isSelected();
-        lblWeightChartTitle.setText(isNewton ? "Tren Gaya (Newton)" : "Tren Beban (kg)");
-        weightYAxis.setLabel(isNewton ? "Gaya (N)" : "Berat (kg)");
+        lblWeightChartTitle.setText(isNewton ? "Force Trends (Newton)" : "Weight Trends (kg)");
+        weightYAxis.setLabel(isNewton ? "Force (N)" : "Weight (kg)");
         repopulateWeightChart();
     }
 
@@ -305,8 +305,8 @@ public class DashboardController {
     @FXML
     public void handleTempUnitChange() {
         boolean isFahrenheit = btnUnitFahrenheit.isSelected();
-        lblTempChartTitle.setText(isFahrenheit ? "Tren Suhu (°F)" : "Tren Suhu (°C)");
-        tempYAxis.setLabel(isFahrenheit ? "Suhu (°F)" : "Suhu (°C)");
+        lblTempChartTitle.setText(isFahrenheit ? "Temperature Trends (°F)" : "Temperature Trends (°C)");
+        tempYAxis.setLabel(isFahrenheit ? "Temperature (°F)" : "Temperature (°C)");
         repopulateTempChart();
     }
 
@@ -427,7 +427,7 @@ public class DashboardController {
     @FXML
     public void handleTare() {
         if (serialService.sendCommand("t")) {
-            appendConsoleMessage("[AKSI] Mengirim perintah Tare ('t')...");
+            appendConsoleMessage("[ACTION] Sending Tare command ('t')...");
         }
     }
 
@@ -437,7 +437,7 @@ public class DashboardController {
     @FXML
     public void handleOpenCalibration() {
         if (!serialService.isConnected()) {
-            showAlert(Alert.AlertType.WARNING, "Port Belum Terhubung", "Silakan klik Connect pada dashboard terlebih dahulu.");
+            showAlert(Alert.AlertType.WARNING, "Port Disconnected", "Please connect serial port on the dashboard first.");
             return;
         }
 
@@ -446,7 +446,7 @@ public class DashboardController {
             Parent root = loader.load();
 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Wizard Kalibrasi Load Cell");
+            dialogStage.setTitle("Load Cell Calibration Wizard");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(connectButton.getScene().getWindow());
             dialogStage.setScene(new Scene(root));
@@ -462,7 +462,7 @@ public class DashboardController {
 
             dialogStage.show();
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Gagal Membuka Dialog", "Terjadi kesalahan: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Failed to Open Dialog", "An error occurred: " + e.getMessage());
         }
     }
 
@@ -472,7 +472,7 @@ public class DashboardController {
     @FXML
     public void handleToggleJson() {
         if (serialService.sendCommand("j")) {
-            appendConsoleMessage("[AKSI] Mengirim perintah toggle format JSON ('j')...");
+            appendConsoleMessage("[ACTION] Sending toggle JSON format command ('j')...");
         }
     }
 
@@ -509,12 +509,12 @@ public class DashboardController {
     @FXML
     public void handleExportCsv() {
         if (csvRecords.isEmpty()) {
-            showAlert(Alert.AlertType.INFORMATION, "Data Masih Kosong", "Belum ada data sensor yang terekam untuk diunduh ke CSV.");
+            showAlert(Alert.AlertType.INFORMATION, "Data is Empty", "No sensor data recorded to export to CSV.");
             return;
         }
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Simpan Data Log Sensor ke CSV");
+        fileChooser.setTitle("Save Sensor Data Log to CSV");
         String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
         fileChooser.setInitialFileName("sensor_log_" + timeStamp + ".csv");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv"));
@@ -525,7 +525,7 @@ public class DashboardController {
         if (file != null) {
             try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))) {
                 // Header CSV
-                writer.write("Timestamp,Sample_Index,LoadCell1_Berat_kg,LoadCell1_Gaya_N,LoadCell2_Berat_kg,LoadCell2_Gaya_N,Total_Berat_kg,Total_Gaya_N,Termokopel1_Suhu_C,Termokopel1_Fahrenheit_F,Termokopel2_Suhu_C,Termokopel2_Fahrenheit_F,Total_Suhu_C,Total_Fahrenheit_F");
+                writer.write("Timestamp,Sample_Index,LoadCell1_Weight_kg,LoadCell1_Force_N,LoadCell2_Weight_kg,LoadCell2_Force_N,Total_Weight_kg,Total_Force_N,Thermocouple1_Temp_C,Thermocouple1_Temp_F,Thermocouple2_Temp_C,Thermocouple2_Temp_F,Total_Temp_C,Total_Temp_F");
                 writer.newLine();
 
                 for (CsvRecord r : csvRecords) {
@@ -558,11 +558,11 @@ public class DashboardController {
                 }
                 writer.flush();
 
-                showAlert(Alert.AlertType.INFORMATION, "Unduhan Berhasil",
-                        "Berhasil mengekspor " + csvRecords.size() + " baris data ke:\n" + file.getAbsolutePath());
-                appendConsoleMessage("[CSV] Berhasil mengunduh " + csvRecords.size() + " baris log ke: " + file.getName());
+                showAlert(Alert.AlertType.INFORMATION, "Export Successful",
+                        "Successfully exported " + csvRecords.size() + " data rows to:\n" + file.getAbsolutePath());
+                appendConsoleMessage("[CSV] Successfully exported " + csvRecords.size() + " log rows to: " + file.getName());
             } catch (IOException e) {
-                showAlert(Alert.AlertType.ERROR, "Gagal Menyimpan CSV", "Terjadi kesalahan saat menulis file:\n" + e.getMessage());
+                showAlert(Alert.AlertType.ERROR, "Failed to Save CSV", "An error occurred while writing file:\n" + e.getMessage());
             }
         }
     }
@@ -599,12 +599,12 @@ public class DashboardController {
 
             if (isNewton) {
                 lblLc1Berat.setText(String.format(Locale.US, "%.1f N", g1));
-                lblLc1Gaya.setText(String.format(Locale.US, "Massa: %.2f kg", b1));
+                lblLc1Gaya.setText(String.format(Locale.US, "Mass: %.2f kg", b1));
             } else {
                 lblLc1Berat.setText(String.format(Locale.US, "%.2f kg", b1));
-                lblLc1Gaya.setText(String.format(Locale.US, "Gaya: %.1f N", g1));
+                lblLc1Gaya.setText(String.format(Locale.US, "Force: %.1f N", g1));
             }
-            lblLc1Status.setText(Math.abs(b1) > 0.05 ? "TERTIMBANG" : "KOSONG");
+            lblLc1Status.setText(Math.abs(b1) > 0.05 ? "MEASURED" : "EMPTY");
             lblLc1Status.setStyle(Math.abs(b1) > 0.05 ? "-fx-text-fill: #00e5ff;" : "-fx-text-fill: #90a4ae;");
 
             addChartPoint(seriesLc1, dataPointIndex, isNewton ? g1 : b1);
@@ -622,12 +622,12 @@ public class DashboardController {
 
             if (isNewton) {
                 lblLc2Berat.setText(String.format(Locale.US, "%.1f N", g2));
-                lblLc2Gaya.setText(String.format(Locale.US, "Massa: %.2f kg", b2));
+                lblLc2Gaya.setText(String.format(Locale.US, "Mass: %.2f kg", b2));
             } else {
                 lblLc2Berat.setText(String.format(Locale.US, "%.2f kg", b2));
-                lblLc2Gaya.setText(String.format(Locale.US, "Gaya: %.1f N", g2));
+                lblLc2Gaya.setText(String.format(Locale.US, "Force: %.1f N", g2));
             }
-            lblLc2Status.setText(Math.abs(b2) > 0.05 ? "TERTIMBANG" : "KOSONG");
+            lblLc2Status.setText(Math.abs(b2) > 0.05 ? "MEASURED" : "EMPTY");
             lblLc2Status.setStyle(Math.abs(b2) > 0.05 ? "-fx-text-fill: #ff9100;" : "-fx-text-fill: #90a4ae;");
 
             addChartPoint(seriesLc2, dataPointIndex, isNewton ? g2 : b2);
@@ -644,13 +644,13 @@ public class DashboardController {
         if (lblCombinedBerat != null && lblCombinedGaya != null) {
             if (isNewton) {
                 lblCombinedBerat.setText(String.format(Locale.US, "%.1f N", totalG));
-                lblCombinedGaya.setText(String.format(Locale.US, "Total Massa: %.2f kg", totalB));
+                lblCombinedGaya.setText(String.format(Locale.US, "Total Mass: %.2f kg", totalB));
             } else {
                 lblCombinedBerat.setText(String.format(Locale.US, "%.2f kg", totalB));
-                lblCombinedGaya.setText(String.format(Locale.US, "Total Gaya: %.1f N", totalG));
+                lblCombinedGaya.setText(String.format(Locale.US, "Total Force: %.1f N", totalG));
             }
             if (lblCombinedStatus != null) {
-                lblCombinedStatus.setText(Math.abs(totalB) > 0.05 ? "TERTIMBANG" : "KOSONG");
+                lblCombinedStatus.setText(Math.abs(totalB) > 0.05 ? "MEASURED" : "EMPTY");
                 lblCombinedStatus.setStyle(Math.abs(totalB) > 0.05 ? "-fx-text-fill: #e040fb; -fx-font-weight: bold;" : "-fx-text-fill: #90a4ae;");
             }
         }
@@ -663,21 +663,21 @@ public class DashboardController {
 
                 if (isFahrenheit) {
                     lblTc1Suhu.setText(String.format(Locale.US, "%.1f °F", f1));
-                    lblTc1Fahrenheit.setText(String.format(Locale.US, "Celcius: %.1f °C", c1));
+                    lblTc1Fahrenheit.setText(String.format(Locale.US, "Celsius: %.1f °C", c1));
                 } else {
                     lblTc1Suhu.setText(String.format(Locale.US, "%.1f °C", c1));
                     lblTc1Fahrenheit.setText(String.format(Locale.US, "Fahrenheit: %.1f °F", f1));
                 }
                 if (lblTc1Status != null) {
-                    lblTc1Status.setText("AKTIF");
+                    lblTc1Status.setText("ACTIVE");
                     lblTc1Status.setStyle("-fx-text-fill: #00e676;");
                 }
                 addChartPoint(seriesTc1, dataPointIndex, isFahrenheit ? f1 : c1);
             } else {
-                lblTc1Suhu.setText("TERPUTUS");
-                lblTc1Fahrenheit.setText("Probe lepas");
+                lblTc1Suhu.setText("DISCONNECTED");
+                lblTc1Fahrenheit.setText("Probe detached");
                 if (lblTc1Status != null) {
-                    lblTc1Status.setText("TERPUTUS");
+                    lblTc1Status.setText("DISCONNECTED");
                     lblTc1Status.setStyle("-fx-text-fill: #90a4ae;");
                 }
             }
@@ -691,21 +691,21 @@ public class DashboardController {
 
                 if (isFahrenheit) {
                     lblTc2Suhu.setText(String.format(Locale.US, "%.1f °F", f2));
-                    lblTc2Fahrenheit.setText(String.format(Locale.US, "Celcius: %.1f °C", c2));
+                    lblTc2Fahrenheit.setText(String.format(Locale.US, "Celsius: %.1f °C", c2));
                 } else {
                     lblTc2Suhu.setText(String.format(Locale.US, "%.1f °C", c2));
                     lblTc2Fahrenheit.setText(String.format(Locale.US, "Fahrenheit: %.1f °F", f2));
                 }
                 if (lblTc2Status != null) {
-                    lblTc2Status.setText("AKTIF");
+                    lblTc2Status.setText("ACTIVE");
                     lblTc2Status.setStyle("-fx-text-fill: #ff5252;");
                 }
                 addChartPoint(seriesTc2, dataPointIndex, isFahrenheit ? f2 : c2);
             } else {
-                lblTc2Suhu.setText("TERPUTUS");
-                lblTc2Fahrenheit.setText("Probe lepas");
+                lblTc2Suhu.setText("DISCONNECTED");
+                lblTc2Fahrenheit.setText("Probe detached");
                 if (lblTc2Status != null) {
-                    lblTc2Status.setText("TERPUTUS");
+                    lblTc2Status.setText("DISCONNECTED");
                     lblTc2Status.setStyle("-fx-text-fill: #90a4ae;");
                 }
             }
@@ -726,20 +726,20 @@ public class DashboardController {
             if (totC != null) {
                 if (isFahrenheit) {
                     lblCombinedSuhu.setText(String.format(Locale.US, "%.1f °F", totF));
-                    lblCombinedFahrenheit.setText(String.format(Locale.US, "Celcius: %.1f °C", totC));
+                    lblCombinedFahrenheit.setText(String.format(Locale.US, "Celsius: %.1f °C", totC));
                 } else {
                     lblCombinedSuhu.setText(String.format(Locale.US, "%.1f °C", totC));
                     lblCombinedFahrenheit.setText(String.format(Locale.US, "Fahrenheit: %.1f °F", totF));
                 }
                 if (lblCombinedTcStatus != null) {
-                    lblCombinedTcStatus.setText("AKTIF");
+                    lblCombinedTcStatus.setText("ACTIVE");
                     lblCombinedTcStatus.setStyle("-fx-text-fill: #ffd600; -fx-font-weight: bold;");
                 }
             } else {
-                lblCombinedSuhu.setText("TERPUTUS");
-                lblCombinedFahrenheit.setText("Probe lepas");
+                lblCombinedSuhu.setText("DISCONNECTED");
+                lblCombinedFahrenheit.setText("Probe detached");
                 if (lblCombinedTcStatus != null) {
-                    lblCombinedTcStatus.setText("TERPUTUS");
+                    lblCombinedTcStatus.setText("DISCONNECTED");
                     lblCombinedTcStatus.setStyle("-fx-text-fill: #90a4ae;");
                 }
             }
@@ -754,7 +754,7 @@ public class DashboardController {
         // Rekam baris data untuk ekspor CSV
         csvRecords.add(new CsvRecord(dataPointIndex, b1, g1, b2, g2, c1, f1, c2, f2));
         if (exportCsvButton != null) {
-            exportCsvButton.setText("📥 Download CSV (" + csvRecords.size() + ")");
+            exportCsvButton.setText("Download CSV (" + csvRecords.size() + ")");
         }
     }
 
@@ -789,7 +789,7 @@ public class DashboardController {
             connectButton.getStyleClass().removeAll("button-primary");
             connectButton.getStyleClass().add("button-danger");
 
-            statusBadge.setText("TERHUBUNG");
+            statusBadge.setText("CONNECTED");
             statusBadge.getStyleClass().removeAll("status-badge-disconnected");
             statusBadge.getStyleClass().add("status-badge-connected");
 
@@ -800,13 +800,13 @@ public class DashboardController {
             calibButton.setDisable(false);
             toggleJsonButton.setDisable(false);
 
-            appendConsoleMessage("[SISTEM] Koneksi serial berhasil terhubung.");
+            appendConsoleMessage("[SYSTEM] Serial connection established.");
         } else {
             connectButton.setText("Connect");
             connectButton.getStyleClass().removeAll("button-danger");
             connectButton.getStyleClass().add("button-primary");
 
-            statusBadge.setText("TERPUTUS");
+            statusBadge.setText("DISCONNECTED");
             statusBadge.getStyleClass().removeAll("status-badge-connected");
             statusBadge.getStyleClass().add("status-badge-disconnected");
 
@@ -817,7 +817,7 @@ public class DashboardController {
             calibButton.setDisable(true);
             toggleJsonButton.setDisable(true);
 
-            appendConsoleMessage("[SISTEM] Koneksi serial terputus.");
+            appendConsoleMessage("[SYSTEM] Serial connection closed.");
         }
     }
 
